@@ -52,7 +52,7 @@
     @enderror
 </div>
 <div class="container w-25 border m-auto mt-2">
-    <form action="" method="post" class="form-group" enctype="multipart/form-data" >
+    <form action="{{ route('admin.addBo') }}" method="Post" class="form-group" enctype="multipart/form-data" >
         @csrf
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">stock</label>
@@ -79,11 +79,11 @@
             <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Enter name">
 
         </div>
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">code</label>
             <input type="text" name="code" class="form-control" id="exampleFormControlInput1" placeholder="Enter code">
 
-        </div>
+        </div> --}}
 
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">author</label>

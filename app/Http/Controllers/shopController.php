@@ -9,7 +9,7 @@ class shopController extends Controller
 {
     //
     function index(){
-        $books=Product::paginate(5);
+        $books=Product::paginate(12);
         // dd($books);
         return view('shop.index',['books'=>$books]);
     }

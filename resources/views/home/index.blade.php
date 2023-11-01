@@ -1336,14 +1336,16 @@
 </html> --}}
 @extends('layout.layout')
 @section('content')
+{{-- {{ dd(auth()->user()) }} --}}
 <main class="pt-4">
     <!-- Hero Section Start -->
     <section class="section-container hero">
       <div class="owl-carousel hero__carousel owl-theme">
         {{-- @dd($sliders) --}}
         @foreach ($sliders as $slider )
+        {{-- @dd(($slider->image[0])) --}}
         <div class="hero__item">
-          <img class="hero__img" style="width: 8000px; height: 600px;" width="200px" src="{{ $slider->image }}" alt="">
+          <img class="hero__img" style="width: 1500px; height: 500px;" width="10px" src="{{$slider->image[0]=='h' ? $slider->image : asset('uplode/Slider') . '/' . $slider->image   }}" alt="">
         </div>
 
         @endforeach
@@ -1390,9 +1392,9 @@
         @foreach ($products as $product )
         <div class="products__item">
           <div class="product__header mb-3">
-            <a href="single-product.html">
+            <a href="{{ route('home.show',['id'=>$product->id,'fav'=>0]) }}">
               <div class="product__img-cont">
-                <img class="product__img w-100 h-100 object-fit-cover" src="{{ $product->image }}" data-id="white">
+                <img class="product__img w-100 h-100 object-fit-cover" src="{{$product->image[0]=='h' ? $product->image : asset('uplode/Book') . '/' . $product->image   }}" data-id="white">
               </div>
             </a>
             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">
@@ -1753,7 +1755,7 @@
 
 <div class="col-md-6 p-2">
   <div class="p-4 border rounded-3">
-    <img class="" style="width: 550px; height: 300px;" src="{{$banner->image  }}" alt="">
+    <img class="" style="width: 550px; height: 300px;" src="{{$banner->image[0]=='h' ? $banner->image : asset('uplode/Banner') . '/' . $banner->image   }}" alt="">
   </div>
 </div>
 @endforeach
@@ -1781,9 +1783,9 @@
         @foreach ($products as $product )
         <div class="products__item">
           <div class="product__header mb-3">
-            <a href="single-product.html">
+            <a href="{{ route('home.show',['id'=>$product->id,'fav'=>0]) }}">
               <div class="product__img-cont">
-                <img class="product__img w-100 h-100 object-fit-cover" src="{{ $product->image }}" data-id="white">
+                <img class="product__img w-100 h-100 object-fit-cover" src="{{$product->image[0]=='h' ? $product->image : asset('uplode/Book') . '/' . $product->image   }}" data-id="white">
               </div>
             </a>
             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">
@@ -2146,9 +2148,9 @@
         @foreach ($products as $product )
         <div class="products__item">
           <div class="product__header mb-3">
-            <a href="single-product.html">
+            <a href="{{ route('home.show',['id'=>$product->id,'fav'=>0]) }}">
               <div class="product__img-cont">
-                <img class="product__img w-100 h-100 object-fit-cover" src="{{ $product->image }}" data-id="white">
+                <img class="product__img w-100 h-100 object-fit-cover" src="{{$product->image[0]=='h' ? $product->image : asset('uplode/Book') . '/' . $product->image   }}" data-id="white">
               </div>
             </a>
             <div class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white">

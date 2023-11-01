@@ -1,7 +1,22 @@
 <?php
 use App\Models\Branche;
-
+use App\Models\Cart;
+use App\Models\Cart_product;
+use App\Models\Category;
+use App\Models\Product;
         $branchs = Branche::get()->all();
+if(auth()->user()!=null){
+
+    $cart=Cart::where('id',auth()->user()->id)->get();
+    // dd( count($cart));
+    if(count($cart)>0){
+
+        $cartItems=Cart_product::where('cart_id',$cart[0]->id)->get();
+    }
+    // dd($cartItem);
+//     dd((Product::where('id',$cartItems[0]->product_id)->select('price')->first())['price']);
+// dd($product);
+}
 
 ?>
 <!DOCTYPE html>
@@ -11,6 +26,7 @@ use App\Models\Branche;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
   <link rel="icon" href="{{ asset('assets')}}/images/logo.png" type="image/x-icon"/>
   <link rel="stylesheet" href="{{ asset('assets')}}/css/main.min.css">
   <link rel="stylesheet" href="{{ asset('assets')}}/css/vendors/bootstrap.rtl.min.css">
@@ -74,12 +90,23 @@ use App\Models\Branche;
                 <li class="nav__link nav__user-link"><a href="">تسجيل الخروج</a></li>
               </ul>
             </li> -->
+            @guest
+
             <li class="nav__link">
-              <a class="d-flex align-items-center gap-2" href="{{ route('login.index') }}">
-                تسجيل الدخول
-                <i class="fa-regular fa-user"></i>
-              </a>
+                <a class="d-flex align-items-center gap-2" href="{{ route('login.index') }}">
+                    تسجيل الدخول
+                    <i class="fa-regular fa-user"></i>
+                </a>
             </li>
+            @endguest
+            @auth
+            <li class="nav__link">
+                <a class="d-flex align-items-center gap-2" href="{{ route('login.logout') }}">
+                  تسجيل الخروج
+                  <i class="fa-regular fa-user"></i>
+                </a>
+            </li>
+
             <li class="nav__link">
               <a class="d-flex align-items-center gap-2" href="{{ route('fav.index') }}">
                 المفضلة
@@ -91,6 +118,7 @@ use App\Models\Branche;
                 </div>
               </a>
             </li>
+
             <li class="nav__link">
               <a class="d-flex align-items-center gap-2" data-bs-toggle="offcanvas" data-bs-target="#nav__cart">
                 عربة التسوق
@@ -102,6 +130,7 @@ use App\Models\Branche;
                 </div>
               </a>
             </li>
+                @endauth
           </ul>
         </div>
         <div class="nav-mobile fixed-bottom d-block d-lg-none">
@@ -160,6 +189,7 @@ use App\Models\Branche;
           </ul>
         </div>
       </div>
+@auth
 
       <div class="nav__cart offcanvas offcanvas-end px-3 py-2" tabindex="-1" id="nav__cart" aria-labelledby="nav__cart">
         <div class="nav__categories-header offcanvas-header align-items-center">
@@ -171,6 +201,15 @@ use App\Models\Branche;
         </div>
         <div class="nav__categories-body offcanvas-body pt-4">
           <p>لا توجد منتجات في سلة المشتريات.</p>
+          {{-- @dd(isset($cartItems)) --}}
+          @if (isset($cartItems))
+
+          @forelse ($cartItems as $cartItem )
+<?php
+// dd($cartItem);
+$product=Product::where('id',$cartItem->product_id)->get();
+?>
+{{-- @dd($product) --}}
           <div class="cart-products">
             <ul class="nav__list list-unstyled">
               <li class="cart-products__item d-flex justify-content-between gap-2">
@@ -179,23 +218,32 @@ use App\Models\Branche;
                     <button class="cart-products__remove">x</button>
                   </div>
                   <div>
-                    <p class="cart-products__name m-0 fw-bolder">Flutter Apprentice</p>
-                    <p class="cart-products__price m-0">1 x 350.00 جنيه</p>
+                    <p class="cart-products__name m-0 fw-bolder">{{ (Product::where('id',$cartItem->product_id)->select('name')->first())['name']}}</p>
+                    <p class="cart-products__price m-0">  {{ (Product::where('id',$cartItem->product_id)->select('price_after_discount')->first())['price_after_discount'] }}x {{ $cartItem->quantity }}جنيه</p>
                   </div>
                 </div>
                 <div class="cart-products__img">
-                  <img class="w-100" src="assets/images/product-1.webp" alt="">
+                  <img class="w-100" src="{{(Product::where('id',$cartItem->product_id)->select('image')->first())['image'][0]=='h' ? (Product::where('id',$cartItem->product_id)->select('image')->first())['image'] : asset('uplode/Book') . '/' . (Product::where('id',$cartItem->product_id)->select('image')->first())['image']   }}" alt="">
                 </div>
               </li>
             </ul>
             <div class="d-flex justify-content-between">
               <p class="fw-bolder">المجموع:</p>
-              <p>350.00 جنيه</p>
+              <p>{{ (Product::where('id',$cartItem->product_id)->select('price_after_discount')->first())['price_after_discount'] * $cartItem->quantity }} جنيه</p>
             </div>
           </div>
-          <button class="nav__cart-btn text-center text-white w-100 border-0 mb-3 py-2 px-3 bg-success">اتمام الطلب</button>
+          @empty
+<h2>No item</h2>
+          @endforelse
+          @endif
+          <a href="{{ route('order.index') }}">
+
+              <button class="nav__cart-btn text-center text-white w-100 border-0 mb-3 py-2 px-3 bg-success">اتمام الطلب</button>
+            </a>
           <button class="nav__cart-btn text-center w-100 py-2 px-3 bg-transparent">تابع التسوق</button>
         </div>
+@endauth
+
       </div>
     </div>
 

@@ -41,8 +41,8 @@ class DatabaseSeeder extends Seeder
         Product::factory(40)->create();
         Wishlist::factory(40)->create();
         Order::factory(40)->create();
-        Cart::factory(40)->create();
-        Cart_product::factory(40)->create();
+        Cart::factory(10)->create();
+        Cart_product::factory(10)->create();
         order_product::factory(40)->create();
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

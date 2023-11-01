@@ -69,7 +69,51 @@
           </select>
         </div>
         <div class="row products__list">
-          <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
+            {{-- @dd($books) --}}
+            @foreach ($books as $book )
+
+            <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
+              <div class="product__header mb-3">
+                <a href="{{ route('home.show',$book->id) }}">
+                  <div class="product__img-cont">
+                    <img
+                      class="product__img w-100 h-100 object-fit-cover"
+                      src="{{$book->image[0]=='h' ? $book->image : asset('uplode/Book') . '/' . $book->image   }}"
+                      data-id="white"
+                    />
+                  </div>
+                </a>
+                <div
+                  class="product__sale position-absolute top-0 start-0 m-1 px-2 py-1 rounded-1 text-white"
+                >
+                  وفر {{ $book->discount }}%
+                </div>
+                <div
+                  class="product__favourite position-absolute top-0 end-0 m-1 rounded-circle d-flex justify-content-center align-items-center bg-white"
+                >
+                  <i class="fa-regular fa-heart"></i>
+                </div>
+              </div>
+              <div class="product__title text-center">
+                <a
+                  class="text-black text-decoration-none"
+                  href="single-product.html"
+                >
+{{ $book->name }}                </a>
+              </div>
+              <div class="product__author text-center">{{ $book->author }}  </div>
+              <div
+                class="product__price text-center d-flex gap-2 justify-content-center flex-wrap"
+              >
+                <span class="product__price product__price--old">
+                    {{ $book->price }}   جنيه
+                </span>
+                <span class="product__price"> {{ $book->price_after_discount }}   جنيه </span>
+              </div>
+            </div>
+            @endforeach
+            {{ $books->links() }}
+          {{-- <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
             <div class="product__header mb-3">
               <a href="single-product.html">
                 <div class="product__img-cont">
@@ -108,9 +152,9 @@
               </span>
               <span class="product__price"> 350.00 جنيه </span>
             </div>
-          </div>
-          <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
-            <div class="product__header mb-3">
+          </div> --}}
+          {{-- <div class="products__item col-6 col-md-4 col-lg-3 mb-5"> --}}
+            {{-- <div class="product__header mb-3">
               <a href="single-product.html">
                 <div class="product__img-cont">
                   <img
@@ -130,16 +174,16 @@
               >
                 <i class="fa-regular fa-heart"></i>
               </div>
-            </div>
-            <div class="product__title text-center">
+            </div> --}}
+            {{-- <div class="product__title text-center">
               <a
                 class="text-black text-decoration-none"
                 href="single-product.html"
               >
                 Modern Full-Stack Development
               </a>
-            </div>
-            <div class="product__author text-center">Frank Zammetti</div>
+            </div> --}}
+            {{-- <div class="product__author text-center">Frank Zammetti</div>
             <div
               class="product__price text-center d-flex gap-2 justify-content-center flex-wrap"
             >
@@ -147,8 +191,8 @@
                 450.00 جنيه
               </span>
               <span class="product__price"> 250.00 جنيه </span>
-            </div>
-          </div>
+            </div> --}}
+          {{-- </div>
           <div class="products__item col-6 col-md-4 col-lg-3 mb-5">
             <div class="product__header mb-3">
               <a href="single-product.html">
@@ -1036,10 +1080,10 @@
               </span>
               <span class="product__price"> 249.00 جنيه </span>
             </div>
-          </div>
+          </div> --}}
         </div>
 
-        <div
+        {{-- <div
           class="products__pagination mb-5 d-flex justify-content-center gap-2"
         >
           <span class="pagination__btn rounded-1 pagination__btn--next"
@@ -1052,7 +1096,7 @@
           <span class="pagination__btn rounded-1 pagination__btn--prev"
             ><i class="fa-solid fa-arrow-left-long"></i
           ></span>
-        </div>
+        </div> --}}
       </div>
     </div>
   </main>

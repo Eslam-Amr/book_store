@@ -31,9 +31,30 @@
             </div>
           </div>
           <div class="account__login w-100">
-            <form class="mb-5">
+            @if(session()->has('message'))
+<div class="alert alert-success" id="alert">
+
+    {{ session()->get('message') }}
+</div>
+<script type="text/javascript">
+    document.ready(setTimeout(function(){
+        document.getElementById('alert').remove()
+    },3000))
+    </script>
+@endif
+@error('email')
+{{ $message }}
+@enderror
+@error('password')
+{{ $message }}
+@enderror
+@error('user_name')
+{{ $message }}
+@enderror
+            <form class="mb-5" action="{{ route('login.auth') }}">
               <div class="input-group rounded-1 mb-3">
                 <input
+                name="email"
                   type="text"
                   class="form-control p-3"
                   placeholder="البريد الالكتروني"
@@ -49,6 +70,7 @@
               </div>
               <div class="input-group rounded-1 mb-3">
                 <input
+                name="password"
                   type="password"
                   class="form-control p-3"
                   placeholder="كلمة السر"
@@ -79,9 +101,10 @@
             </form>
           </div>
           <div class="account__register w-100">
-            <form class="mb-5">
+            <form class="mb-5" action="{{ route('login.register') }}">
               <div class="input-group rounded-1 mb-3">
                 <input
+                name="user_name"
                   type="text"
                   class="form-control p-3"
                   placeholder="الاسم كامل"
@@ -97,21 +120,23 @@
               </div>
               <div class="input-group rounded-1 mb-3">
                 <input
-                  type="text"
-                  class="form-control p-3"
-                  placeholder="البريد الالكتروني"
-                  aria-label="Email"
-                  aria-describedby="basic-addon1"
+                name="email"
+                type="text"
+                class="form-control p-3"
+                placeholder="البريد الالكتروني"
+                aria-label="Email"
+                aria-describedby="basic-addon1"
                 />
                 <span
-                  class="input-group-text login__input-icon"
-                  id="basic-addon1"
+                class="input-group-text login__input-icon"
+                id="basic-addon1"
                 >
-                  <i class="fa-solid fa-envelope"></i>
-                </span>
-              </div>
-              <div class="input-group rounded-1 mb-3">
-                <input
+                <i class="fa-solid fa-envelope"></i>
+            </span>
+        </div>
+        <div class="input-group rounded-1 mb-3">
+            <input
+            name="password"
                   type="password"
                   class="form-control p-3"
                   placeholder="كلمة السر"
@@ -127,7 +152,7 @@
               </div>
 
               <button
-                class="text-center fs-6 py-2 w-100 bg-black text-white border-0 rounded-1"
+                class="text-center fs-6 py-2 w-100 bg-black text-white border-0 rounded-1" type="submit"
               >
                 حساب جديد
               </button>
@@ -142,6 +167,7 @@
             <form action="">
               <div class="input-group rounded-1 mb-3">
                 <input
+                name="email"
                   type="text"
                   class="form-control p-3"
                   placeholder="البريد الالكتروني"
