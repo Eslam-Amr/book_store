@@ -11,7 +11,7 @@ class Admin extends Authenticatable
 {
     use HasFactory;
 protected $table='users';
-static function boot (){
+static function boot(){
     parent::boot();
     static::addGlobalScope('admin',function(Builder $bulder){
         $bulder->where('role','admin');

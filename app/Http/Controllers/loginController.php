@@ -19,11 +19,31 @@ class loginController extends Controller
         // dd($request->all());
         $validator = $this->validateLogin($request->all());
         $validator->validate();
+
+
+        $guards=array_keys(array_slice(config('auth.guards'),0,-1));
+        // dd($guards[1]=='admin');
+foreach($guards as $guard){
+
+    if(Auth::guard($guard)->attempt($validator->validated())){
+ if($guard=='admin')
+ return redirect()->route('admin.index');
+ if($guard=='user')
+     return redirect()->route('home.index');
+
+        // return redirect()->route('home');
+
+    }
+}
+
+
+
+
         // dd($validator);
         // if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
-        if (Auth::attempt($validator->validated())) {
-            return redirect()->route('home.index');
-        }
+        // if (Auth::attempt($validator->validated())) {
+        //     return redirect()->route('home.index');
+        // }
         return back()->with('message', 'invalid email or password');
         // $guard=array_slice(config('auth.guards'),0,-1);
         // foreach(array_keys($guard) as $guard){
